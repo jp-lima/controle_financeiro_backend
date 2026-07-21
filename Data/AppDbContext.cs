@@ -8,6 +8,12 @@ public class AppDbContext : DbContext
      
   public DbSet<Usuario>   Usuarios   {get; set;}
   public DbSet<Transacao> Transacoes {get; set;} 
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
+  {
+        modelBuilder.Entity<Transacao>()
+            .Property(t => t.Tipo)
+            .HasConversion<string>();
+  }
 }
 
 

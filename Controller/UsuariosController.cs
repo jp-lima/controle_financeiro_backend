@@ -51,6 +51,12 @@ public class UsuariosController : ControllerBase
     if(usuario is null) return NotFound("Usuario nao encontrado para esse id"); 
     _appDbContext.Usuarios.Remove(usuario);   
 
+    var transacoes = await _appDbContext.Transacoes
+    .Where(t => t.IdUsuario == id)
+    .ToListAsync();
+
+    _appDbContext.Transacoes.RemoveRange(transacoes);
+
     await _appDbContext.SaveChangesAsync(); 
     return NoContent(); 
   }

@@ -44,6 +44,16 @@ public class UsuariosController : ControllerBase
     if(usuario is null) return NotFound("Usuario nao encontrado para esse id"); 
     return usuario;
   }
+  [HttpDelete("{id}")]
+  public async Task<IActionResult> deleteUsuarioById(string id)
+  {
+    Usuario? usuario = await _appDbContext.Usuarios.FindAsync(id);
+    if(usuario is null) return NotFound("Usuario nao encontrado para esse id"); 
+    _appDbContext.Usuarios.Remove(usuario);   
+
+    await _appDbContext.SaveChangesAsync(); 
+    return NoContent(); 
+  }
 }
 
 

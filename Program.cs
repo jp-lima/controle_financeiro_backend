@@ -17,8 +17,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(
       builder.Configuration.GetConnectionString("AppDbConnectionString"))); 
 
-// Add services to the container.
-builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen(); 
 builder.Services.AddControllers(); 
 

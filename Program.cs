@@ -12,6 +12,17 @@ builder.Services.AddControllers()
             new JsonStringEnumConverter());
     });
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseNpgsql(
@@ -23,6 +34,7 @@ builder.Services.AddControllers();
 var app = builder.Build();
 app.MapControllers();
 
+app.UseCors();
 app.UseSwagger(); 
 app.UseSwaggerUI(); 
 

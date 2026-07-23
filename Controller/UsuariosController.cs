@@ -31,10 +31,32 @@ public class UsuariosController : ControllerBase
     return Ok(usuario); 
   }
   [HttpGet]
-  public async Task<ActionResult<IEnumerable<Usuario>>> getUsuarios()
+  public async Task<ActionResult<IEnumerable<GetUsuarioDto>>> getUsuarios()
   {
+    List<GetUsuarioDto> ListaUsuarios = []; 
+    int contador = 0; 
     var usuarios = await _appDbContext.Usuarios.ToArrayAsync(); 
-    return Ok(usuarios);
+    foreach(var usuario in usuarios)
+    {
+      var transictions = await _appDbContext.Transacoes.Where(t => t.IdUsuario == usuario.Id).Select(t => new GetTransacaoDto{
+          Id = t.Id,
+          Descricao = t.Descricao,
+          Tipo = t.Tipo,
+          Valor = t.Valor
+          }
+          ).ToListAsync(); 
+
+      GetUsuarioDto usuarioDto = new GetUsuarioDto{
+           Id = usuario.Id,
+           Nome = usuario.Nome,  
+           Idade = usuario.Idade,
+           Transacoes = transictions
+      };  
+      
+      ListaUsuarios.Add(usuarioDto); 
+      contador++; 
+    }
+    return Ok(ListaUsuarios);
   }
 
   [HttpGet("{id}")]

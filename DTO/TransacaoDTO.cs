@@ -8,3 +8,11 @@ public class CreateTransacaoDTO
   public string Descricao {get; set;}
   public float         Valor {get; set;}
 }
+
+public class GetTransacaoDto
+{
+    public string Id { get; set; } = string.Empty;
+    public string Descricao { get; set; } = string.Empty;
+    public TipoTransacao Tipo { get; set; }
+    public float Valor { get; set; }
+}

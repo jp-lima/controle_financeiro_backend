@@ -21,6 +21,7 @@ public class TransacaoController : ControllerBase
   {
     Usuario? usuario = await _appDbContext.Usuarios.FindAsync(dto.IdUsuario);
     if(usuario is null) return NotFound("Usuario nao encontrado para esse id"); 
+    // Regra de negócio: menores de 18 anos não podem cadastrar receita, apenas despesa 
     if (usuario.Idade < 18 && dto.Tipo == TipoTransacao.Receita)
     {
         return BadRequest("Usuários menores de 18 anos só podem cadastrar despesas.");

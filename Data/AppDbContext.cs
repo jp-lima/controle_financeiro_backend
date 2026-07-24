@@ -10,6 +10,8 @@ public class AppDbContext : DbContext
   public DbSet<Transacao> Transacoes {get; set;} 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
+    // Persiste o enum TipoTransacao como string no banco (ex: "Receita"), em vez de valores numericos, 
+    // servindo para melhorar a legibilidade
         modelBuilder.Entity<Transacao>()
             .Property(t => t.Tipo)
             .HasConversion<string>();

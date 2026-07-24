@@ -36,6 +36,7 @@ public class UsuariosController : ControllerBase
     List<GetUsuarioDto> ListaUsuarios = []; 
     int contador = 0; 
     var usuarios = await _appDbContext.Usuarios.ToArrayAsync(); 
+    // foreach em cada usuario para pegar cada transacao de cada usuario e vincular aos respectivos donos  
     foreach(var usuario in usuarios)
     {
       var transictions = await _appDbContext.Transacoes.Where(t => t.IdUsuario == usuario.Id).Select(t => new GetTransacaoDto{
@@ -73,6 +74,7 @@ public class UsuariosController : ControllerBase
     if(usuario is null) return NotFound("Usuario nao encontrado para esse id"); 
     _appDbContext.Usuarios.Remove(usuario);   
 
+     // Exclusão em cascata: ao remover um usuário, todas as transações dele também são removidas, evitando registros órfãos.
     var transacoes = await _appDbContext.Transacoes
     .Where(t => t.IdUsuario == id)
     .ToListAsync();
